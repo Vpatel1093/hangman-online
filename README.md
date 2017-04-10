@@ -1,4 +1,5 @@
 #theodinproject.com/ruby-programming/file-i-o-and-serialization?ref=lnav
+#theodinproject.com/courses/ruby-on-rails/lessons/sinatra-project?ref=lnav
 
 
 <p>You will be building a simple command line Hangman game where one player plays against the computer, but a bit more advanced.  If you&#39;re unfamiliar with how Hangman works, see <a href="http://en.wikipedia.org/wiki/Hangman_(game)">Wikipedia</a>.</p>
