@@ -20,9 +20,9 @@
 		</style>
 	</head>
 	<body>
-		<h1>Choose a saved game to load.</h1>
+		<h3>Choose a saved game to load.</h3>
 		<% saves.each do |s| %>
-			<a href="<%= url("/load/ + s)%> class="button"><%= s %></a>
+			<a href="<%= url("/load/" + s[0])%>" class="button"><%= s[0] %></a>
 		<% end %>
 	</body>
 </html>

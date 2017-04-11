@@ -33,7 +33,7 @@
 	<body>
 		<h3>Hangman</h3>
 		<%= guesses_left_message %>
-		<% if !bad_guesses.nil? %>
+		<% if bad_guesses.strip.length > 0 %>
 			<p id="bad_guesses" > Incorrect letters: <%= bad_guesses %></p>
 		<% end %>
 		<h2 id="h2" ><%= encrypted_word %></h2>

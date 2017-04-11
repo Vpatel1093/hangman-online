@@ -6,7 +6,7 @@ use Rack::Session::Pool, :expire_after => 2592000
 
 class Hangman
 
-	attr_reader :encrypted_word, :guesses_left, :bad_guesses, :drawing, :message
+	attr_accessor :encrypted_word, :guesses_left, :letters_used, :bad_guesses, :message, :word
 
 	def initialize
 		@message = ""
@@ -15,7 +15,7 @@ class Hangman
 		@word = ""
 		word_selection
 		encrypt_word
-		@bad_guesses = ""
+		@bad_guesses = " "
 	end
 	
 	def word_selection
@@ -110,9 +110,9 @@ get '/play' do
 	redirect to '/reset' unless !session[:game].ended?
   if params['guess']
 		session[:game].guess_assessment(params['guess'].to_s.upcase)
-		bad_guesses = session[:game].bad_guesses.split("").join(", ")
 	end
 	message = session[:game].message
+	bad_guesses = session[:game].bad_guesses.strip.split("").join(", ")
 	encrypted_word = session[:game].encrypted_word.split("").join(" ")
 	guesses_left = session[:game].guesses_left
 	guesses_left_message = session[:game].guesses_left_message
@@ -135,12 +135,14 @@ get '/load' do
 end
 		
 get '/load/:id' do
-		
-		@guesses_left = saves[number][1].to_i
-		@letters_used = saves[number][2]
-		@word = saves[number][3]
-		@encrypted_word = saves[number][4]
-		@bad_guesses = saves[number][5]
+		all_saves = CSV.read('saves/saved_games.csv')
+		save = all_saves.find {|row| row[0] == params["id"]}
+		session[:game].guesses_left = save[1].to_i
+		session[:game].letters_used = save[2]
+		session[:game].word = save[3]
+		session[:game].encrypted_word = save[4]
+		session[:game].bad_guesses = save[5]
+		redirect to '/'
 end	
 
 get '/reset' do
@@ -149,11 +151,10 @@ get '/reset' do
 end
 
 private
-
 def save_game(game)
 	Dir.mkdir('saves') unless Dir.exist? "saves"
 	name = game.encrypted_word + " (#{session[:game].guesses_left})"
-	csv = File.open('saves/saved_games.csv', "ab")
-	csv.write("#{name},#{@guesses_left},#{@letters_used},#{@word},#{@encrypted_word},#{@bad_guesses}")
-	csv.close
+	CSV.open('saves/saved_games.csv', "ab") do |csv|
+		csv << [name, game.guesses_left, game.letters_used, game.word, game.encrypted_word, game.bad_guesses]
+	end
 end
