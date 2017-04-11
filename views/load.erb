@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Hangman</title>
+		<style>
+			body {
+					font-size: 30px;
+					text-align: center;
+			}
+			.button {
+				background-color: #e7e7e7;
+				border: none;
+				color: black;
+				padding: 1px 14px;
+				text-align: center;
+				text-decoration: none;
+				display: inline-block;
+				font-size: 30px;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Choose a saved game to load.</h1>
+		<% saves.each do |s| %>
+			<a href="<%= url("/load/ + s)%> class="button"><%= s %></a>
+		<% end %>
+	</body>
+</html>

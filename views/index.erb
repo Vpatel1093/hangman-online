@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Hangman</title>
+		<style>
+			body {
+					font-size: 30px;
+					text-align: center;
+			}
+			input {
+				text-align: center;
+				height: 40px;
+			}
+			#h2 {
+				white-space: nowrap;
+			}
+			#bad_guesses {
+				color: red;
+			}
+			.button {
+				background-color: #e7e7e7;
+				border: none;
+				color: black;
+				margin: 15px;
+				padding: 1px 10px;
+				text-align: center;
+				text-decoration: none;
+				display: inline-block;
+				font-size: 30px;
+			}
+		</style>
+	</head>
+	<body>
+		<h3>Hangman</h3>
+		<%= guesses_left_message %>
+		<% if !bad_guesses.nil? %>
+			<p id="bad_guesses" > Incorrect letters: <%= bad_guesses %></p>
+		<% end %>
+		<h2 id="h2" ><%= encrypted_word %></h2>
+		<% if !game.ended? %>
+			<form>
+				<input type='text' name='guess' pattern="[A-Za-z]" placeholder="Guess a letter" />
+				<input type='submit' name='submit' value="Guess!" />
+			</form>
+		<% end %>
+		<a href="<%= url("/save")%>" class="button">Save</a>
+		<a href="<%= url("/load")%>" class="button">Load</a>
+		<a href="<%= url("/reset")%>" class="button">Reset</a>
+		<p>
+			<%= message %>
+		</p>
+	</body>
+</html>
